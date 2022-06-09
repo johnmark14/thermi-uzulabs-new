@@ -1,0 +1,73 @@
+.image-grid {
+    figure.image {
+        margin: 0;
+        background-size: 0 0;
+        background-repeat: no-repeat;
+        background-position: center;
+        position: relative;
+
+        img {
+            object-fit: cover;
+            transition: .3s ease-out;
+        }
+
+        &:hover button {
+            opacity: 1;
+        }
+
+        button {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translate(-50%);
+            display: inline-block;
+            width: 80%;
+            max-width: 180px;
+            opacity: 0;
+            background-color: $black;
+            color: $white;
+            z-index: 10;
+            cursor: pointer;
+            transition: all .3s ease-out;
+
+            &:hover {
+                // outline: 1px solid $white;
+                // outline-offset: -5px;
+                // background-color: $white;
+                // border: 1px solid $black;
+                // color: $black;
+                // font-weight: $weight-medium;
+                opacity: 1;
+                + a > img {
+                    opacity: 1 !important;
+                }
+            }
+        }
+    }
+    .product-meta {
+        p {margin: 0;}
+    }
+    .product-swatches {
+        opacity: 0;
+        transition: opacity .3s ease-out;
+    }
+
+    .column .content:hover,
+    .column .content:hover {
+        figure.image {
+            background-size: cover;
+        }
+        figure.image img{
+            opacity: 0;
+        }
+        .product-swatches {
+            opacity: 1;
+        }
+    }
+
+    .column .content figure.image:hover .column .content button {
+        opacity: 1;
+    }
+ 
+}
+

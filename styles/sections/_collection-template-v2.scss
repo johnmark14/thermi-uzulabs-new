@@ -1,0 +1,48 @@
+.collection-page,
+.list-collection-page {
+    .column {
+        .product-search {
+            .field .icon.icon-search {
+                top: 8px;
+                right: -12px;
+                color: $black;
+            }
+            .field .control input {
+                border-radius: 0;
+                border-color: $black;
+                &::placeholder {
+                    color: $black;
+                }
+            }
+        }
+        .product-swatches {
+            height: 30px;
+            .product-wrapper {
+                width: 18px;
+                height: 18px;
+                &:not(:last-child) {
+                    margin-right: 4px;
+                }
+
+                &:hover {
+                    position: relative;
+                    .swatch-active::after{
+                        content: "";
+                        cursor: pointer;
+                        width: 14px;
+                        height: 14px;
+                        top: 2px;
+                        left: 2px;
+                        border: 1px solid $white;
+                        border-radius: 50%;
+                        position: absolute;
+                    }
+                }
+            }
+            .variant-count {
+                padding-top: 2px;
+                font-size: 12px;
+            }
+        }
+    }
+}

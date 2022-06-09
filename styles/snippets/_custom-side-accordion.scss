@@ -1,0 +1,108 @@
+.side-accordion {
+    ol, ul { list-style: none }
+    li {margin: 0;}
+    a { text-decoration: none; }
+    nav .nav__list {border-top: 1px solid $black;}
+    .nav a, .nav label {
+        display: block;
+        padding: .85rem;
+        color: $black;
+        // background-color: #151515;
+        box-shadow: inset 0 -1px #1d1d1d;
+        -webkit-transition: all .25s ease-in;
+        transition: all .25s ease-in;
+      }
+    .group-list li:last-child a {
+      box-shadow: inset 0 -1px #1d1d1d;
+    }
+
+    .group-list {
+      border-left: 1px solid $black;
+    }
+      
+      .nav a:focus, .nav a:hover, .nav label:focus, .nav label:hover {
+        color: rgba(255, 255, 255, 1);
+        background: #030303;
+        // box-shadow: inset 0 -1px #474747;
+      }
+      
+      .nav label { cursor: pointer; }
+      
+      /**
+       * Styling first level lists items
+       */
+      
+      .group-list a, .group-list label {
+        // background: #252525;
+        // box-shadow: inset 0 -1px #373737;
+        box-shadow: none;
+      }
+      
+    //   .group-list a:focus, .group-list a:hover, .group-list label:focus, 
+    //   .group-list label:hover { background: #131313; }
+      
+      /**
+       * Styling second level list items
+       */
+      
+      .sub-group-list a, .sub-group-list label {
+        // background: #353535;
+        // box-shadow: inset 0 -1px #474747;
+        box-shadow: none;
+      }
+      
+    //   .sub-group-list a:focus, .sub-group-list a:hover, .sub-group-list label:focus, 
+    //   .sub-group-list label:hover { /*background: #232323; */}
+      
+      /**
+       * Styling third level list items
+       */
+      
+      .sub-sub-group-list a, .sub-sub-group-list label {
+        // background: #454545;
+        // box-shadow: inset 0 -1px #575757;
+        box-shadow: none;
+      }
+      
+    //   .sub-sub-group-list a:focus, .sub-sub-group-list a:hover, .sub-sub-group-list label:focus, 
+    //   .sub-sub-group-list label:hover { /*background: #333333; */}
+      
+      /**
+       * Hide nested lists
+       */
+      
+      .group-list, .sub-group-list, .sub-sub-group-list {
+        height: 100%;
+        max-height: 0;
+        overflow: hidden;
+        -webkit-transition: max-height .5s ease-in-out;
+        transition: max-height .5s ease-in-out;
+      }
+      
+      .nav__list input[type=checkbox]:checked + label + ul { /* reset the height when checkbox is checked */
+        max-height: 1000px;
+      }
+      
+      /**
+       * Rotating chevron icon
+       */
+
+      label > span.icon-open {
+        display: none;
+      }
+      
+      label > span {
+        font-size: 24px;
+        float: right;
+        line-height: 0.8;
+        -webkit-transition: -webkit-transform .65s ease;
+        transition: transform .65s ease;
+      }
+      
+      .nav__list input[type=checkbox]:checked + label > span.icon-closed {
+        display: none;
+      }
+      .nav__list input[type=checkbox]:checked + label > span.icon-open {
+        display: inline;
+      }
+}

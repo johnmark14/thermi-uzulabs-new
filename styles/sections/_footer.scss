@@ -1,0 +1,34 @@
+.footer {
+    &--body {
+        min-height: 230px;
+        .column {
+            .link-links:not(.social-icons) {
+                li {
+                    margin-top: 10px;
+                }
+            }
+            .link-links.social-icons {
+                li:not(:last-child) {
+                    margin-right: 10px;
+                }
+
+                li {
+                    font-size: 18px;
+                }
+            }
+
+            margin-top: 3rem;
+
+            @include touch {
+                margin-top: 0.25rem;
+
+                .footer-logo {
+                    margin-top: 3rem;
+                }
+            }
+        }
+    }
+    &--copy {
+        padding: 15px 10px;
+    }
+}

@@ -1,0 +1,14 @@
+nav.breadcrumb {
+    ul {
+        font-size: 12px;
+    }
+    @include mobile {
+        ul {
+            justify-content: center;
+        }
+        &.is-small.product-page {
+            font-size: 10px;
+            padding-bottom: 10px;
+        }
+    }
+}

@@ -1,0 +1,29 @@
+.our-clients {
+    section, .section {
+        padding-top: 10px !important;
+        padding-bottom: 20px!important;
+    }
+    .container {
+        @include tablet {
+            padding: 0 130px;
+        }
+        .section-header {
+            margin-bottom: 10px !important;
+        }
+        figure.image {
+            margin: 0;
+            width: 200px;
+
+            img {
+                object-fit: contain;
+            }
+            @include mobile {
+                width: 120px;
+            }
+        }
+        .swiper-slide {
+            display: flex;
+            justify-content: center;
+        }
+    }
+}

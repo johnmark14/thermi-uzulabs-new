@@ -1,0 +1,39 @@
+#shopify-section-product-template {
+    .grid.product-single.is-flex {
+        justify-content: center;
+
+        @include mobile {
+            flex-direction: column;
+            align-items: center;
+            padding-left: 10px;
+        }
+    }
+    @include mobile {
+        fieldset#ProductSelect-option-personalization {
+            display: flex;
+        }
+    }
+    @include until(426px) {
+        fieldset#ProductSelect-option-personalization {
+            flex-direction: column;
+        }
+    }
+}
+#shopify-section-product-template {
+    .radio-wrapper.product-form__item.engraving-texts {
+        fieldset.single-option-radio .text-option__wrapper > input{
+            position: static;
+            width: 100%;
+            height: unset;
+            border: 1px solid $grey;
+            background-color: unset;
+        }
+
+        .text-option__wrapper {
+            margin-bottom: 5px;
+            i {
+                font-style: normal;
+            }
+        }
+    }
+}
