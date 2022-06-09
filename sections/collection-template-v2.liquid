@@ -1,0 +1,73 @@
+<!-- /templates/collection.liquid -->
+{%-style-%}
+  .collection-page .hero {
+    {%if collection.image != blank %}
+    background-image: url('{{collection.image | img_url: "master"}}');
+    {%else%}
+    display: none;
+    {%endif%}
+    background-size: cover;
+    background-position: top center;
+    background-repeat: no-repeat;
+  }
+{%-endstyle-%}
+<section class="hero is-medium is-link">
+  <div class="hero-body has-text-centered"></div>
+</section>
+<section class="section collection-grid">
+  <div class="wrapper">
+    {%render 'breadcrumbs' %}
+    <div class="columns is-variable is-8-widescreen">
+      <div class="column is-one-fifth">
+        <h2 class="title is-uppercase is-size-5 pb-3">{{section.settings.text}}</h2>
+        <div class="product-search">
+          <div class="field">
+            <p class="control has-icons-right">
+              <input class="input" type="email" placeholder="Search Products">
+              <span class="icon is-small is-right">
+                <span class="icon icon-search" aria-hidden="true"></span>
+              </span>
+            </p>
+          </div>
+        </div>
+        <div class="product-side-navigation">
+          {% render 'custom-side-accordion' %}
+        </div>
+      </div>
+      <div class="column has-text-centered">
+        <h2 class="title collection_title is-uppercase is-size-5 pb-3"></h2>
+        {% render 'custom-image-grid' collection: collection %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection pages v2",
+  "class": "collection-page",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Side Navigation Settings"
+    },
+    {
+      "type": "text",
+      "id": "navigation_text",
+      "label": "Side Navigation Text",
+      "default": "Shop by category"
+    },
+    {
+      "type": "link_list",
+      "id": "navigation_menu",
+      "label": "Side Menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "navigation_search",
+      "label": "Show Side Navigation Search?",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

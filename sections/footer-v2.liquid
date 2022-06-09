@@ -1,0 +1,368 @@
+{%- liquid
+  assign color_background = section.settings.color_background
+  assign color_text = section.settings.color_text
+  assign logo_max_width = section.settings.logo_max_width
+  assign help_title = section.settings.help_title
+  assign help_text = section.settings.help_text
+  assign help_url = section.settings.help_url
+  assign footer_menu = linklists[section.settings.footer_link_list].links
+  assign footer_menu_size = linklists[section.settings.footer_link_list].links.size
+-%}
+<style>
+  #shopify-section-{{ section.id }}, #shopify-section-{{ section.id }} p>a {
+    background-color: {{color_background }};
+    color: {{color_text}};
+  }
+  .footer-logo img {
+    max-width: {{ logo_max_width | append: 'px' }};
+  }
+
+  @media screen and (max-width: 768px) {
+    .footer-logo img {
+      max-width: 100%;
+    }
+  }
+</style>
+<footer class="footer" role="contentinfo" data-section-id="{{ section.id }}" data-section-type="footer-section">
+  <div class="wrapper footer--body pb-6 px-2">
+    <div class="columns is-multiline">
+      <!-- Logo -->
+      <div class="column is-3-desktop is-full-touch has-text-centered-touch">
+        <div class="footer-logo mb-5">
+          {% capture image_size %}{{ logo_max_width | escape }}x{% endcapture %}
+          <a href="{{ routes.root_url }}" itemprop="url" class="footer-logo-link is-size-3" style="color: {{color_text}}">
+            {% if section.settings.logo %}
+              <img class="footer-logo-image" src="{{ section.settings.logo | img_url: image_size }}" srcset="{{ section.settings.logo | img_url: image_size }} 1x, {{ section.settings.logo | img_url: image_size, scale: 2 }} 2x" alt="{{ section.settings.logo.alt | default: shop.name }}" itemprop="logo">
+            {% else %}
+              {{ shop.name }}
+            {% endif %}
+          </a>
+        </div>
+        {%if help_url != blank %}
+          <div class="footer--link is-hidden-touch">
+            <h4 style="color: {{color_text}}" class="link-title is-size-5 has-text-weight-normal">{{help_title}}</h4>
+            <ul class="link-links no-bullets has-text-weight-light is-uppercase">
+              <li><a href="{{help_url}}" style="color: {{color_text}}" class="text-hover">{{help_text}}</a></li>
+            </ul>
+          </div>
+        {%endif%}
+      </div>
+      <!-- Footer Links -->
+      {%if footer_menu_size > 0%}
+        {%for link in footer_menu %}
+          <div class="column is-full-mobile has-text-centered-mobile">
+            <div class="footer--link">
+              <h4 style="color: {{color_text}}" class="link-title is-uppercase is-size-5 has-text-weight-normal">{{link.title}}</h4>
+              {%if link.levels > 0%}
+                <ul class="link-links no-bullets has-text-weight-light is-uppercase">
+                  {%for l in link.links %}
+                    <li><a href="{{l.url}}" style="color: {{color_text}}" class="text-hover">{{l.title}}</a></li>
+                  {%endfor%}
+                </ul>
+              {%endif%}
+            </div>
+          </div>
+        {%endfor%}
+      {%endif%}
+      <!-- Socials -->
+      <div class="column is-2-desktop is-hidden-touch">
+        <h4 class="link-title has-text-weight-normal is-uppercase" style="color: {{color_text}}">Social Media</h4>
+        <ul class="link-links no-bullets social-icons is-flex">
+          {% if settings.social_facebook_link != blank %}
+            <li>
+              <a href="{{ settings.social_facebook_link | escape }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Facebook' }}">
+                <span class="icon icon-facebook" aria-hidden="true" style="color: {{color_text}}"></span>
+              </a>
+            </li>
+          {% endif %}
+          {% if settings.social_twitter_link != blank %}
+            <li>
+              <a href="{{ settings.social_twitter_link | escape }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Twitter' }}">
+                <span class="icon icon-twitter" aria-hidden="true" style="color: {{color_text}}"></span>
+              </a>
+            </li>
+          {% endif %}
+          {% if settings.social_pinterest_link != blank %}
+            <li>
+              <a href="{{ settings.social_pinterest_link | escape }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Pinterest' }}">
+                <span class="icon icon-pinterest" aria-hidden="true" style="color: {{color_text}}"></span>
+              </a>
+            </li>
+          {% endif %}
+          {% if settings.social_instagram_link != blank %}
+            <li>
+              <a href="{{ settings.social_instagram_link | escape }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Instagram' }}">
+                <span class="icon icon-instagram" aria-hidden="true" style="color: {{color_text}}"></span>
+              </a>
+            </li>
+          {% endif %}
+          {% if settings.social_snapchat_link != blank %}
+            <li>
+              <a href="{{ settings.social_snapchat_link | escape }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Snapchat' }}">
+                <span class="icon icon-snapchat" aria-hidden="true" style="color: {{color_text}}"></span>
+              </a>
+            </li>
+          {% endif %}
+          {% if settings.social_google_plus_link != blank %}
+            <li>
+              <a href="{{ settings.social_google_plus_link | escape }}" rel="publisher" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Google Plus' }}">
+                <span class="icon icon-google_plus" aria-hidden="true" style="color: {{color_text}}"></span>
+              </a>
+            </li>
+          {% endif %}
+          {% if settings.social_tumblr_link != blank %}
+            <li>
+              <a href="{{ settings.social_tumblr_link | escape }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Tumblr' }}">
+                <span class="icon icon-tumblr" aria-hidden="true" style="color: {{color_text}}"></span>
+              </a>
+            </li>
+          {% endif %}
+          {% if settings.social_youtube_link != blank %}
+            <li>
+              <a href="{{ settings.social_youtube_link | escape }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'YouTube' }}">
+                <span class="icon icon-youtube" aria-hidden="true" style="color: {{color_text}}"></span>
+              </a>
+            </li>
+          {% endif %}
+          {% if settings.social_vimeo_link != blank %}
+            <li>
+              <a href="{{ settings.social_vimeo_link | escape }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Vimeo' }}">
+                <span class="icon icon-vimeo" aria-hidden="true" style="color: {{color_text}}"></span>
+              </a>
+            </li>
+          {% endif %}
+          {% if settings.social_fancy_link != blank %}
+            <li>
+              <a href="{{ settings.social_fancy_link | escape }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Fancy' }}">
+                <span class="icon icon-fancy" aria-hidden="true" style="color: {{color_text}}"></span>
+              </a>
+            </li>
+          {% endif %}
+          {% if settings.social_tiktok != blank %}
+            <li>
+              <a href="{{ settings.social_tiktok | escape }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Fancy' }}">
+                <span class="icon-custom icon-tiktok" aria-hidden="true" style="color: {{color_text}}"></span>
+              </a>
+            </li>
+          {% endif %}
+        </ul>
+        <div class="footer--link">
+          {%- if section.settings.show_payment_icons -%}
+            {%- unless shop.enabled_payment_types == empty -%}
+              <span class="visually-hidden">{{ 'general.payment.method' | t }}</span>
+              <ul class="inline-list payment-icons site-footer__payment-icons">
+                {%- for type in shop.enabled_payment_types -%}
+                  <li>
+                    {{ type | payment_type_svg_tag: class: 'icon' }}
+                  </li>
+                {%- endfor -%}
+              </ul>
+            {%- endunless -%}
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+    <div class="columns is-hidden-desktop">
+      <!-- Footer Help -->
+      {% if help_url != blank %}
+      <div class="column is-half is-full-mobile has-text-centered-mobile">
+        <div class="footer--link">
+          <h4 style="color: {{color_text}}" class="link-title is-size-5 has-text-weight-normal">{{help_title}}</h4>
+          <ul class="link-links no-bullets has-text-weight-light is-uppercase">
+            <li><a href="{{help_url}}" style="color: {{color_text}}" class="text-hover">{{help_text}}</a></li>
+          </ul>
+        </div>
+      </div>
+      {%endif%}
+      <!-- Socials -->
+      <div class="column is-half has-text-centered-touch">
+        <h4 class="link-title has-text-weight-normal is-uppercase" style="color: {{color_text}}">Social Media</h4>
+        <ul class="link-links no-bullets social-icons is-flex is-justify-content-center">
+          {% if settings.social_facebook_link != blank %}
+            <li>
+              <a href="{{ settings.social_facebook_link | escape }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Facebook' }}">
+                <span class="icon icon-facebook" aria-hidden="true" style="color: {{color_text}}"></span>
+              </a>
+            </li>
+          {% endif %}
+          {% if settings.social_twitter_link != blank %}
+            <li>
+              <a href="{{ settings.social_twitter_link | escape }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Twitter' }}">
+                <span class="icon icon-twitter" aria-hidden="true" style="color: {{color_text}}"></span>
+              </a>
+            </li>
+          {% endif %}
+          {% if settings.social_pinterest_link != blank %}
+            <li>
+              <a href="{{ settings.social_pinterest_link | escape }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Pinterest' }}">
+                <span class="icon icon-pinterest" aria-hidden="true" style="color: {{color_text}}"></span>
+              </a>
+            </li>
+          {% endif %}
+          {% if settings.social_instagram_link != blank %}
+            <li>
+              <a href="{{ settings.social_instagram_link | escape }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Instagram' }}">
+                <span class="icon icon-instagram" aria-hidden="true" style="color: {{color_text}}"></span>
+              </a>
+            </li>
+          {% endif %}
+          {% if settings.social_snapchat_link != blank %}
+            <li>
+              <a href="{{ settings.social_snapchat_link | escape }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Snapchat' }}">
+                <span class="icon icon-snapchat" aria-hidden="true" style="color: {{color_text}}"></span>
+              </a>
+            </li>
+          {% endif %}
+          {% if settings.social_google_plus_link != blank %}
+            <li>
+              <a href="{{ settings.social_google_plus_link | escape }}" rel="publisher" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Google Plus' }}">
+                <span class="icon icon-google_plus" aria-hidden="true" style="color: {{color_text}}"></span>
+              </a>
+            </li>
+          {% endif %}
+          {% if settings.social_tumblr_link != blank %}
+            <li>
+              <a href="{{ settings.social_tumblr_link | escape }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Tumblr' }}">
+                <span class="icon icon-tumblr" aria-hidden="true" style="color: {{color_text}}"></span>
+              </a>
+            </li>
+          {% endif %}
+          {% if settings.social_youtube_link != blank %}
+            <li>
+              <a href="{{ settings.social_youtube_link | escape }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'YouTube' }}">
+                <span class="icon icon-youtube" aria-hidden="true" style="color: {{color_text}}"></span>
+              </a>
+            </li>
+          {% endif %}
+          {% if settings.social_vimeo_link != blank %}
+            <li>
+              <a href="{{ settings.social_vimeo_link | escape }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Vimeo' }}">
+                <span class="icon icon-vimeo" aria-hidden="true" style="color: {{color_text}}"></span>
+              </a>
+            </li>
+          {% endif %}
+          {% if settings.social_fancy_link != blank %}
+            <li>
+              <a href="{{ settings.social_fancy_link | escape }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Fancy' }}">
+                <span class="icon icon-fancy" aria-hidden="true" style="color: {{color_text}}"></span>
+              </a>
+            </li>
+          {% endif %}
+          {% if settings.social_tiktok != blank %}
+            <li>
+              <a href="{{ settings.social_tiktok | escape }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Fancy' }}">
+                <span class="icon-custom icon-tiktok" aria-hidden="true" style="color: {{color_text}}"></span>
+              </a>
+            </li>
+          {% endif %}
+        </ul>
+        <div class="footer--link">
+          {%- if section.settings.show_payment_icons -%}
+            {%- unless shop.enabled_payment_types == empty -%}
+              <span class="visually-hidden">{{ 'general.payment.method' | t }}</span>
+              <ul class="inline-list payment-icons site-footer__payment-icons">
+                {%- for type in shop.enabled_payment_types -%}
+                  <li>
+                    {{ type | payment_type_svg_tag: class: 'icon' }}
+                  </li>
+                {%- endfor -%}
+              </ul>
+            {%- endunless -%}
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container footer--copy mt-6 has-text-centered">
+    {%if section.settings.text_bottom != blank %}
+      <p>{{section.settings.text_bottom}}</p>
+    {%else%}
+      <p class="is-uppercase">&copy;{{ shop.name | link_to: routes.root_url }}, {{ 'now' | date: '%Y' }} </p>
+    {%endif%}
+  </div> 
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Payment methods"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "Show payment icons",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "range",
+      "id": "logo_max_width",
+      "label": "Custom logo width",
+      "min": 50,
+      "max": 260,
+      "step": 5,
+      "unit": "px",
+      "default": 180
+    },
+    {
+      "type": "header",
+      "content": "Menu"
+    },
+    {
+      "type": "link_list",
+      "id": "footer_link_list",
+      "label": "Footer menu",
+      "default": "footer"
+    },
+    {
+      "type": "header",
+      "content": "Help Page"
+    },
+    {
+      "type": "text",
+      "id": "help_title",
+      "label": "Help Tile",
+      "default": "Need help?"
+    },
+    {
+      "type": "text",
+      "id": "help_text",
+      "label": "Help Text",
+      "default": "Click here to contact us"
+    },
+    {
+      "type": "url",
+      "id": "help_url",
+      "label": "Help Page"
+    },
+    {
+      "type": "header",
+      "content": "Color Settings"
+    },
+    {
+      "type": "color",
+      "id": "color_text",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "color_background",
+      "label": "Footer background",
+      "default": "#000000"
+    },
+    {
+      "type": "text",
+      "id": "text_bottom",
+      "label": "Text bottom"
+    }
+  ]
+}
+{% endschema %}

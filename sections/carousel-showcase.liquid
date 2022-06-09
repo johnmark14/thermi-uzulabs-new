@@ -1,0 +1,179 @@
+{%- liquid
+  assign color_background = section.settings.color_background
+  assign color_navigation = section.settings.color_navigation
+  assign hide_checkbox = section.settings.hide_navigation
+-%}
+<link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css"/>
+<style>
+    #shopify-section-{{ section.id }} {
+      background-color: {{color_background }};
+    }
+    .swiper {
+      width: 100%;
+    }
+    .swiper:hover .swiper-button-next, .swiper:hover .swiper-button-prev {
+      opacity: 1;
+    }
+    .swiper-button-next, .swiper-button-prev {
+      color: {{color_navigation}}!important;
+      {%if hide_checkbox == true%}
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      {%endif%}
+      top: 40%;
+    }
+</style>
+<section class="section">
+    <div class="container">
+        {% if section.settings.title != blank %}
+            <div class="section-header text-center">
+                <h2 class="h1 section-header__title is-uppercase is-size-4">{{ section.settings.title | escape }}</h2>
+                {%unless section.settings.hide_rule == true%}
+                  <hr class="hr--small">
+                {%endunless%}
+            </div>
+        {% endif %}
+    </div>
+    <div class="container">
+        <!-- Slider main container -->
+        <div class="swiper">
+            <!-- Additional required wrapper -->
+            <div class="swiper-wrapper">
+              <!-- Slides -->
+              {% for block in section.blocks %}
+                {%assign product = block.settings.product%}
+                {%if product != blank%}
+                {% assign product_selected = product_select | plus:1%}
+                  <a href="{{product.url}}" class="swiper-slide">
+                    <img class="lazyload fade-in {% unless forloop.first == true %} lazypreload{% endunless %}" src="{{product.first_available_variant.image | img_url: 'master'}}">
+                    <div class="product-info has-text-centered">
+                      <p class="title mb-1">{{product.title}}</p>
+                      {%include 'price-on-display', product: product%}
+                    </div>
+                  </a>
+                {%else%}
+                <div class="swiper-slide">
+                  {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                </div>
+                {%endif%}
+              {%endfor%}
+            </div>
+            <!-- If we need navigation buttons -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </div>
+</section>
+
+<script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+<script>
+    const swiper = new Swiper('.swiper', {
+        // Optional parameters
+        preloadImages: true,
+        slidesPerView: 1,
+        spaceBetween: 10,
+        loop: true,
+        loopFillGroupWithBlank: true,
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+        breakpoints: {
+          640: {
+              slidesPerView: 2,
+              spaceBetween: 10,
+          },
+          768: {
+              slidesPerView: 4,
+              spaceBetween: 20,
+          },
+          1024: {
+              slidesPerView: 5,
+              spaceBetween: 30,
+          }
+        }
+    });
+</script>
+{% schema %}
+{
+  "name": "Carousel Showcase",
+  "tag": "section",
+  "class": "Carousel",
+  "max_blocks": 10,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Best Sellers"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_rule",
+      "label": "Hide Horizontal Rule?",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Slide Settings"
+    },
+    {
+      "type": "color",
+      "id": "color_background",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "color_navigation",
+      "label": "Navigation Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_navigation",
+      "label": "Hide Navigation",
+      "default": false,
+      "info": "This will hide navigation and will show on hover."
+    }
+  ],
+  "blocks": [
+     {
+       "name": "Slide",
+       "type": "slide",
+       "settings": [
+         {
+           "type": "product",
+           "id": "product",
+           "label": "Product"
+         }
+       ]
+     }
+   ],
+  "presets": [
+     {
+       "name": "Carousel Showcase",
+       "settings": {
+          "title": "Best Sellers" 
+        },
+       "blocks": [
+         {
+           "type": "slide"
+         },
+         {
+           "type": "slide"
+         },
+         {
+           "type": "slide"
+         },
+         {
+           "type": "slide"
+         },
+         {
+           "type": "slide"
+         }
+       ]
+     }
+   ]
+}
+{% endschema %}
