@@ -1921,7 +1921,7 @@ fieldset[disabled] .file-name {
 }
 
 .image-grid .product-swatches {
-  opacity: 0;
+  opacity: 1;
   -webkit-transition: opacity .3s ease-out;
   transition: opacity .3s ease-out;
 }
