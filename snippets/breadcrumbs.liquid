@@ -56,12 +56,14 @@ $( document ).ready(function() {
     Storage.prototype.getObj = function(key) {
     return JSON.parse(this.getItem(key));
     }
+
+    // This is used for when navigating from collection page to product page
     if(window.CURRENT_PAGE != 'product') {
         console.log(window.COLLECTION_HANDLE);
         // Save collection handle to local storage
         localStorage.setItem('handle', window.COLLECTION_HANDLE); 
 
-        $('.collection-image-drid ').on('click', ('a[data-product-link]'), function(event) {
+        $('.collection-image-grid ').on('click', ('a[data-product-link], a[data-variant-swatch]'), function(event) {
             event.preventDefault();
             $this = $(this);
             const buildLink = $this.attr('href') + `&main=${MAIN}&childlink=${TITLE}&title=${$this.data('title')}`;

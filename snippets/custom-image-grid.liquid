@@ -1,4 +1,4 @@
-<div class="collection-image-drid columns image-grid is-multiline mb-6">
+<div class="collection-image-grid columns image-grid is-multiline mb-6">
     {% for product in collection.products%}
       <div class="column is-3">
         <div class="content">
@@ -20,14 +20,14 @@
               {%if variant.metafields.image_color.value.value != blank%}
                 {%assign variants_hidden = variants_hidden | plus:1 %}
                 {%if variants_hidden <= 5%}
-                <a href="{{variant.url}}" class="product-wrapper">
+                <a href="{{variant.url}}" data-variant-swatch  data-title="{{product.title}}" class="product-wrapper">
                   {%render 'custom-product-swatch' background_image: variant.metafields.image_color.value.value%}
                 </a>
                 {%endif%}
               {%elsif variant.metafields.color.value.value != blank%}
                 {%assign variants_hidden = variants_hidden | plus:1 %}
                 {%if variants_hidden <= 5%}
-                <a href="{{variant.url}}" class="product-wrapper">
+                <a href="{{variant.url}}" data-variant-swatch  data-title="{{product.title}}" class="product-wrapper">
                   {%render 'custom-product-swatch' background_color: variant.metafields.color.value.value%}
                 </a>
                 {%endif%}
