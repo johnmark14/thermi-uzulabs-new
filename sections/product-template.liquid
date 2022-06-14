@@ -309,7 +309,13 @@
                 {% endfor %}
               {% endunless %}
               <!-- Personalization yes | no-->
-              {%if product.metafields.engrave.text.value != blank or product.metafields.engrave.icons.value != blank%}
+              {%assign engraving = false %}
+              {% for tag in product.tags%}
+                  {%if tag == "engraving" %}
+                    {%assign engraving = true %}
+                  {%endif%}
+              {%endfor%}
+              {%if engraving == true %}
                 <div class="radio-wrapper js product-form__item">
                   <label class="single-option-radio__label" for="ProductSelect-option-personalization">Do you want to personalize your item?</label>
                   <fieldset class="single-option-radio" id="ProductSelect-option-personalization">

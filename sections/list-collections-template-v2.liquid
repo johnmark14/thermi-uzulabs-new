@@ -3,8 +3,8 @@
 <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
 {%-style-%}
   .list-collection-page .hero {
-    {%if collection.image != blank %}
-    background-image: url('{{collection.image | img_url: "master"}}');
+    {%if collection.metafields.banner.image.value %}
+    background-image: url('{{collection.metafields.banner.image.value | img_url: "master"}}');
     {%else%}
     display: none;
     {%endif%}

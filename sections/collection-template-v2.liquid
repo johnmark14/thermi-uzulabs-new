@@ -1,13 +1,13 @@
 <!-- /templates/collection.liquid -->
 {%-style-%}
   .collection-page .hero {
-    {%if collection.image != blank %}
-    background-image: url('{{collection.image | img_url: "master"}}');
+    {%if collection.metafields.banner.image.value != blank %}
+    background-image: url('{{collection.metafields.banner.image.value | img_url: "master"}}');
     {%else%}
     display: none;
     {%endif%}
     background-size: cover;
-    background-position: top center;
+    background-position: center 10%;
     background-repeat: no-repeat;
   }
 {%-endstyle-%}
