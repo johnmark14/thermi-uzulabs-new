@@ -568,10 +568,14 @@
 
   $('.engraving-icons-texts').on('change', 'input[data-variant-image]', function() {
     $this = $(this);
+    // Reset Image
+    resetProductImage();
 
-    let variantImages = $this.data('variant-image');
-    $.each(variantImages, function(index, value) {
-      console.log(value)
+    let activeEmoji = $this.data('variant-image');
+    $.each(activeEmoji, function(index, value) {
+      if(activeVariant == value.split(':')[0]) {
+        setProductImage(value.split(':')[1]);
+      }
     });
   });
 
