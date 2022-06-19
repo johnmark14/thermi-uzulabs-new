@@ -267,8 +267,9 @@
                       </label>
                     {%endif%}
                     {% if section.settings.product_selector == 'radio' %}
-                      <fieldset class="single-option-radio {%if option.name == 'Material'%} is-flex {%endif%} {%if option.name == 'Color'%} multiline-card {%endif%}"
-                        id="ProductSelect-option-{{ forloop.index0 }}">
+                      <fieldset class="single-option-radio {%if option.name == 'Material'%} is-flex {%endif%} {%if option.name == 'Color'%} variant-color-swatch multiline-card {%endif%}"
+                        id="ProductSelect-option-{{ forloop.index0 }}"
+                        {%if option.name == 'Color'%} data-variant-color-swatch {%endif%}>
                         {% assign option_index = forloop.index %}
                         
                         {% for value in option.values %}
@@ -440,6 +441,8 @@
 <script>
   // Global Vars
   var productImageDefault;
+  // Object Vars
+  $previousParentImage = null;
 
   // Functions
   const showEmojiSection = function() {
@@ -469,17 +472,30 @@
 
   const resetProductImage = function() {
     console.log('resetting')
-    if(productImageDefault != null) {
-      $('.product-icon-text img').attr({'src': productImageDefault, 'srcset': productImageDefault});
+    if(productImageDefault != null && $previousParentImage != null ) {
+      $previousParentImage.find('img').attr({'src':productImageDefault, 'srcset':productImageDefault});
     }
   }
 
   const setProductImage = function(link) {
-    productImageDefault = $('.product-icon-text img').attr('src');
-    $('.product-icon-text img').attr({'src':link, 'srcset':link});
+    
+    $('.product-single__media-group').children().each(function() {
+      $this = $(this);
+      $productImage = $this.find('.product-single__media-wrapper:not(.hide)');
+      console.log($productImage)
+      if($productImage.length != 0) {
+       $previousParentImage = $productImage;
+        productImageDefault = $productImage.find('img').attr('src');
+        $productImage.find('img').attr({'src':link, 'srcset':link});
+      }
+    });
   }
 
   // Events
+  $('.product-form__item').on('change', 'fieldset[data-variant-color-swatch]', function() {
+    resetProductImage();
+  });
+
   // Add or Not Engraving Option
   $('.single-option-radio').on('change', 'input[data-engraving-include]', function() {
     $this = $(this);
@@ -501,6 +517,9 @@
       showEmojiSection();
     } else {
       hideEmojiSection();
+
+      // Reset Image
+      resetProductImage();
     }
 
     // HandleInputTexts
@@ -514,15 +533,6 @@
     $.each(variantImages, function(index, value) {
       console.log(value)
     });
-  });
-
-  $('.engraving-personalization').on('change', 'input', function() {
-    $this = $(this);
-
-    if($this.val() != "emoji") {
-      // Reset Image
-      resetProductImage();
-    }
   });
 
   $('.engraving-personalization').on('change', 'input[value="emoji"]', function() {
