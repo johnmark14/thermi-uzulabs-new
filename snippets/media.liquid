@@ -30,8 +30,9 @@ tabindex="-1">
   {% case media.media_type %}
   {% when 'image' %}
     {% include 'image-style' with image: media, width: width, height: height, small_style: true, wrapper_id: wrapper_id, img_id_class: img_id_class %}
-    <div class="product-single__media" style="padding-top:{{ 1 | divided_by: media.aspect_ratio | times: 100}}%;">
+    <div class="product-single__media product-icon-text" style="padding-top:{{ 1 | divided_by: media.aspect_ratio | times: 100}}%;">
       {% assign img_url = media | img_url: '1x1' | replace: '_1x1.', '_{width}x.' %}
+      <!-- Mod: john - product-image -->
       <img class="mfp-image lazyload {{ img_id_class }}"
         src="{{ media | img_url: '300x300' }}"
         data-src="{{ img_url }}"
@@ -41,6 +42,13 @@ tabindex="-1">
         {% if enable_image_zoom %} data-mfp-src="{{ media | img_url: '1024x1024' }}"{% endif %}
         data-media-id="{{ media.id }}"
         alt="{{ media.alt | escape }}">
+        <div class="product-text">
+          <span class="text1">text1</span>
+          <span class="text2">text2</span>
+          <span class="text3">text3</span>
+          <span class="text4">text4</span>
+          <span class="text5">text5</span>
+        </div>
     </div>
   {% when 'external_video' %}
     <div class="product-single__media product-single__media--video" style="padding-top: {{ 1 | divided_by: media.aspect_ratio | times: 100 }}%;">

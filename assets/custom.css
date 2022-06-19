@@ -7443,6 +7443,21 @@ fieldset[disabled] .select select:hover {
   font-style: normal;
 }
 
+#shopify-section-product-template .product-icon-text {
+  position: relative;
+}
+
+#shopify-section-product-template .product-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 20;
+}
+
+#shopify-section-product-template .product-text span {
+  display: block;
+}
+
 .footer--body {
   min-height: 230px;
 }

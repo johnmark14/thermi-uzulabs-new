@@ -1,3 +1,14 @@
+<!-- Handling custom fonts from metas -->
+{%style%}
+  {%for font in product.metafields.font-family.font.value %}
+  @font-face {
+    font-family: "{{font.name}}";
+    src: url("{{font.font-family}}") format("truetype");
+    font-weight: {{font.weight}};
+  }
+  {%endfor%}
+{%endstyle%}
+
 <!-- /templates/product.liquid -->
 {%- assign first_3d_model = product.media | where: "media_type", "model" | first -%}
 <div class="wrapper">
@@ -276,7 +287,11 @@
                             name="option{{ option.position }}"
                             class="single-option-selector__radio{% unless variant_label_state %} disabled{% endunless %}"
                             id="ProductSelect-option-{{ option.name | handleize }}-{{ value | escape }}">
-                            <label for="ProductSelect-option-{{ option.name | handleize }}-{{ value | escape }}" class="{%if option.name == 'Color'%}color-swatch{%endif%} {%if option.name == 'Material'%} lid-type{%endif%} color-option{% unless variant_label_state %} disabled{% endunless %}">
+                            <label for="ProductSelect-option-{{ option.name | handleize }}-{{ value | escape }}" 
+                            class="{%if option.name == 'Color'%}color-swatch{%endif%} {%if option.name == 'Material'%} 
+                            lid-type{%endif%} color-option{% unless variant_label_state %} disabled{% endunless %}"
+                            data-option-name="{{option.name}}" 
+                            >
                               {%if option.name == 'Color'%}
                                 {%for variant in product.variants %}
                                   {%if variant.title contains value %}
@@ -353,7 +368,7 @@
                 </div>
                 <div class="engraving-wrapper">
                   {%render 'engraving-menus'%}
-                  {%render 'engraving-icons-texts'%}
+                  {%render 'engraving-icons-texts' product: product%}
                   <!-- Texts Inputs -->
                   {%render 'engraving-text-inputs'%}
                 </div>
@@ -444,6 +459,11 @@
       $child.find('span>i').text(max);
     });
   }
+
+  const getActiveEmoji = function() {
+   return $('.engraving-icons-texts.icons').find('input:checked');
+  }
+
   // Events
   // 1) Add or Not Engraving Option
   $('.single-option-radio').on('change', 'input[data-engraving-include]', function() {
@@ -471,6 +491,24 @@
 
     // HandleInputTexts
     handleInputTexts($this.data('max-char'), $this.data('value'));
+  });
+
+  $('.engraving-icons-texts').on('change', 'input[data-variant-image]', function() {
+    $this = $(this);
+
+    let variantImages = $this.data('variant-image');
+    $.each(variantImages, function(index, value) {
+      console.log(value)
+    });
+  });
+
+  $('.engraving-personalization').on('change', 'input[value="emoji"]', function() {
+    $this = $(this);
+
+    // Get Active Emoji
+    $activeEmoji = getActiveEmoji();
+
+    console.log($activeEmoji.data('variant-image'))
   });
 </script>
 

@@ -37,3 +37,20 @@
         }
     }
 }
+// Engraving layout on product
+#shopify-section-product-template {
+    .product-icon-text {
+        position: relative;
+    }
+
+    .product-text {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 20;
+
+        span {
+            display: block;
+        }
+    }
+}

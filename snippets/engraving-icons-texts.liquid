@@ -44,7 +44,8 @@
     <fieldset class="single-option-radio engraving-icons-texts icons is-hidden" id="ProductSelect-option-personalization-icons">
         <!-- Options -->
         <input type="radio" checked="checked"
-        value="icon1"
+        value="icon-1"
+        data-variant-image='[{%-for value in product.options_by_name["Color"].values-%}"{{value | handleize}}:{{product.title | downcase | replace: " ", "-" | append: "-" | append: value | downcase | replace: " ", "-" | append: "-icon-1" | append: ".png" | file_url}}"{%unless forloop.last%},{%endunless%}{%-endfor-%}]'
         name="personalization-icons"
         class="single-option-selector__radio-personalization"
         id="ProductSelect-option-icon-1">
@@ -111,14 +112,26 @@
     </fieldset>
     <fieldset class="single-option-radio engraving-icons-texts texts" id="ProductSelect-option-personalization-texts">
         <!-- Options -->
-        <input type="radio" checked="checked"
+        <input type="radio" {%if forloop.first%}checked="checked"{%endif%}
         value="text1"
         name="personalization-fonts"
         class="single-option-selector__radio-personalization"
-        id="ProductSelect-option-text-1">
-        <label for="ProductSelect-option-text-1">
+        id="ProductSelect-option-text-0">
+        <label for="ProductSelect-option-text-0">
             Thermi Style Font
         </label>
+        {%for font in product.metafields.font-family.font.value %}
+            <!-- Options -->
+            <input type="radio"
+            value="text1"
+            name="personalization-fonts"
+            class="single-option-selector__radio-personalization"
+            id="ProductSelect-option-text-{{forloop.index}}">
+            <label for="ProductSelect-option-text-{{forloop.index}}" style="font-family: '{{font.name}}'; font-size: {{font.font-size}}px;">
+                {{font.name}}
+            </label>
+        {%endfor%}
+        {%comment%}
         <!-- Options -->
         <input type="radio"
         value="text2"
@@ -182,5 +195,6 @@
         <label for="ProductSelect-option-text-8">
             Montserrat Font
         </label>
+        {%endcomment%}
     </fieldset>
 </div>
