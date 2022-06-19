@@ -442,6 +442,7 @@
   // Global Vars
   var productImageDefault;
   var showEmoji = false;
+  var activeVariant;
   // Object Vars
   $previousParentImage = null;
 
@@ -474,7 +475,6 @@
   }
 
   const resetProductImage = function() {
-    console.log('resetting')
     if(productImageDefault != null && $previousParentImage != null ) {
       $previousParentImage.find('img').attr({'src':productImageDefault, 'srcset':productImageDefault});
     }
@@ -486,11 +486,31 @@
       $this = $(this);
       $productImage = $this.find('.product-single__media-wrapper:not(.hide)');
       if($productImage.length != 0) {
-       $previousParentImage = $productImage;
-        productImageDefault = $productImage.find('img').attr('src');
-        $productImage.find('img').attr({'src':link, 'srcset':link});
+        checkIfImageISAvailable(link)
+        .done(function(res) {
+          console.log('working ', link)
+          $previousParentImage = $productImage;
+          productImageDefault = $productImage.find('img').attr('src');
+          $productImage.find('img').attr({'src':link, 'srcset':link});
+        })
+        .fail(function(res) {
+          console.log('fail')
+          return false;
+        });
       }
     });
+  }
+
+  const checkIfImageISAvailable = function(link) {
+    return $.ajax({
+      url: link,
+      type: "GET",
+      async: false,
+    });
+  }
+
+  const getActiveVariantValue = function() {
+    return $('fieldset[data-variant-color-swatch]').find('input:checked').val().toLowerCase();
   }
 
   // Events
@@ -500,8 +520,8 @@
     resetProductImage();
     
     if(showEmoji){
-      // Get Input Value
-      let activeVariant = $this.find('input:checked').val().toLowerCase();
+
+      activeVariant = getActiveVariantValue();
   
       let activeEmoji = getActiveEmoji().data('variant-image');
   
@@ -513,7 +533,7 @@
     }
   });
 
-  // Add or Not Engraving Option
+  // Add or Not Engraving Option Icons & Texts
   $('.single-option-radio').on('change', 'input[data-engraving-include]', function() {
     $this = $(this);
     $engraving = $('.engraving-wrapper');
@@ -526,6 +546,7 @@
     $engraving.removeClass('is-hidden');
   });
 
+  // When Engraving options icon is enabled
   $('.engraving-options').on('change', 'input[data-engraving-options]', function() {
     $this = $(this);
     // Show Icon/Emoji Options
@@ -533,9 +554,12 @@
       showEmojiSection();
 
       // Get Active Emoji
-      $activeEmoji = getActiveEmoji();
-
-      setProductImage('//cdn.shopify.com/s/files/1/0602/5140/6487/files/12oz-tumbler-black-icon-1.png?v=2865562046476043485');
+      let activeEmoji = getActiveEmoji().data('variant-image');
+      $.each(activeEmoji, function(index, value) {
+        if(activeVariant == value.split(':')[0]) {
+          setProductImage(value.split(':')[1]);
+        }
+      });
     } else {
       hideEmojiSection();
 
@@ -555,6 +579,11 @@
       console.log(value)
     });
   });
+
+  $(document).ready(function() {
+    activeVariant = getActiveVariantValue();
+  });
+
 </script>
 
 

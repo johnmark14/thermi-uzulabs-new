@@ -34,7 +34,7 @@ tabindex="-1">
       {% assign img_url = media | img_url: '1x1' | replace: '_1x1.', '_{width}x.' %}
       <!-- Mod: john - product-image -->
       <img class="mfp-image lazyload {{ img_id_class }}"
-        src="{{ media | img_url: '300x300' }}"
+        src="{{ media | img_url: 'master' }}"
         {%comment%}
         data-src="{{ img_url }}"
         {%endcomment%}
