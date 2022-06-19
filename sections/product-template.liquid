@@ -518,13 +518,10 @@
     $this = $(this);
     // Reset Image First
     resetProductImage();
+    activeVariant = getActiveVariantValue();
     
     if(showEmoji){
-
-      activeVariant = getActiveVariantValue();
-  
       let activeEmoji = getActiveEmoji().data('variant-image');
-  
       $.each(activeEmoji, function(index, value) {
         if(activeVariant == value.split(':')[0]) {
           setProductImage(value.split(':')[1]);
@@ -552,7 +549,6 @@
     // Show Icon/Emoji Options
     if($this.val() == 'emoji') {
       showEmojiSection();
-
       // Get Active Emoji
       let activeEmoji = getActiveEmoji().data('variant-image');
       $.each(activeEmoji, function(index, value) {
@@ -562,7 +558,6 @@
       });
     } else {
       hideEmojiSection();
-
       // Reset Image
       resetProductImage();
     }
