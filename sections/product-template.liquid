@@ -441,15 +441,18 @@
 <script>
   // Global Vars
   var productImageDefault;
+  var showEmoji = false;
   // Object Vars
   $previousParentImage = null;
 
   // Functions
   const showEmojiSection = function() {
     $('.engraving-icons-texts.icons').removeClass('is-hidden');
+    showEmoji = true;
   }
   const hideEmojiSection = function() {
     $('.engraving-icons-texts.icons').addClass('is-hidden');
+    showEmoji = false;
   }
   const handleInputTexts = function(max, numText) {
     $(".engraving-text-inputs").children().each(function(index) {
@@ -482,7 +485,6 @@
     $('.product-single__media-group').children().each(function() {
       $this = $(this);
       $productImage = $this.find('.product-single__media-wrapper:not(.hide)');
-      console.log($productImage)
       if($productImage.length != 0) {
        $previousParentImage = $productImage;
         productImageDefault = $productImage.find('img').attr('src');
@@ -493,7 +495,22 @@
 
   // Events
   $('.product-form__item').on('change', 'fieldset[data-variant-color-swatch]', function() {
+    $this = $(this);
+    // Reset Image First
     resetProductImage();
+    
+    if(showEmoji){
+      // Get Input Value
+      let activeVariant = $this.find('input:checked').val().toLowerCase();
+  
+      let activeEmoji = getActiveEmoji().data('variant-image');
+  
+      $.each(activeEmoji, function(index, value) {
+        if(activeVariant == value.split(':')[0]) {
+          setProductImage(value.split(':')[1]);
+        }
+      });
+    }
   });
 
   // Add or Not Engraving Option
@@ -507,7 +524,6 @@
     }
 
     $engraving.removeClass('is-hidden');
-  
   });
 
   $('.engraving-options').on('change', 'input[data-engraving-options]', function() {
@@ -515,6 +531,11 @@
     // Show Icon/Emoji Options
     if($this.val() == 'emoji') {
       showEmojiSection();
+
+      // Get Active Emoji
+      $activeEmoji = getActiveEmoji();
+
+      setProductImage('//cdn.shopify.com/s/files/1/0602/5140/6487/files/12oz-tumbler-black-icon-1.png?v=2865562046476043485');
     } else {
       hideEmojiSection();
 
@@ -533,15 +554,6 @@
     $.each(variantImages, function(index, value) {
       console.log(value)
     });
-  });
-
-  $('.engraving-personalization').on('change', 'input[value="emoji"]', function() {
-    $this = $(this);
-
-    // Get Active Emoji
-    $activeEmoji = getActiveEmoji();
-
-    setProductImage('//cdn.shopify.com/s/files/1/0602/5140/6487/files/12oz-tumbler-black-icon-1.png?v=2865562046476043485');
   });
 </script>
 
